@@ -63,17 +63,22 @@ namespace BankSystem
         {
             if (radioButton2.Checked == true)
             {
-                model = presenter.Registration(comboBox1.SelectedIndex, textBox4.Text, textBox6.Text, textBox1.Text, textBox3.Text, textBox5.Text, textBox2.Text);
+                if (textBox1.Text != "" && textBox2.Text != "" && textBox3.Text != "" && textBox4.Text != "" && textBox5.Text != "" && textBox6.Text != "")
+                {
+                    model = presenter.Registration(comboBox1.SelectedIndex, textBox4.Text, textBox6.Text, textBox1.Text, textBox3.Text, textBox5.Text, textBox2.Text);
+                }
             }
             if (radioButton1.Checked == true)
             {
-                model = presenter.LogIn(comboBox1.SelectedIndex, comboBox2.Text, textBox1.Text, textBox2.Text);
-                if (model.GetLoggedClient() != null && comboBox2.Text == "Client")
+                model = presenter.LogIn(comboBox1.SelectedIndex, textBox1.Text, textBox2.Text);
+                if (model.GetLoggedClient() != null)
                 {
+                    label19.Text = "Client";
+                    label19.Visible = true;
                     button1.Visible = false;
                     button2.Visible = true;
                     comboBox1.Enabled = false;
-                    comboBox2.Enabled = false;
+                    //comboBox2.Enabled = false;
                     radioButton1.Visible = false;
                     radioButton2.Visible = false;
                     label1.Visible = false;
@@ -122,12 +127,14 @@ namespace BankSystem
                         listBox2.Items.Add(account.Sum);
                     }
                 }
-                if (model.GetLoggedSpecialist() != null && comboBox2.Text == "Specialist")
+                if (model.GetLoggedSpecialist() != null)
                 {
+                    label19.Text = "Specialist";
+                    label19.Visible = true;
                     button1.Visible = false;
                     button2.Visible = true;
                     comboBox1.Enabled = false;
-                    comboBox2.Enabled = false;
+                   // comboBox2.Enabled = false;
                     radioButton1.Visible = false;
                     radioButton2.Visible = false;
                     label1.Visible = false;
@@ -143,15 +150,25 @@ namespace BankSystem
                     listBox2.Visible = true;
                     listBox2.Items.Add(model.GetLoggedSpecialist().company.Sum); 
                     button3.Text = "Salary project";
+                    if (model.GetLoggedSpecialist().company.project != null)
+                    {
+                        button3.Visible = false;
+                    }
+                    if (model.GetLoggedSpecialist().company.project == null)
+                    {
+                        button3.Visible = true;
+                    }
                 }
-                if (model.GetLoggedAdministrator() != null && comboBox2.Text == "Administrator")
+                if (model.GetLoggedAdministrator() != null)
                 {
+                    label19.Text = "Administrator";
+                    label19.Visible = true;
                     button1.Visible = false;
                     button2.Visible = true;
                     button13.Visible = true;
                     button14.Visible = true;
                     comboBox1.Enabled = false;
-                    comboBox2.Enabled = false;
+                   // comboBox2.Enabled = false;
                     radioButton1.Visible = false;
                     radioButton2.Visible = false;
                     label1.Visible = false;
@@ -164,12 +181,14 @@ namespace BankSystem
                     button3.Text = "Logs";
                     listBox1.Visible = true;
                 }
-                if (model.GetLoggedOperator() != null && comboBox2.Text == "Operator")
+                if (model.GetLoggedOperator() != null)
                 {
+                    label19.Text = "Operator";
+                    label19.Visible = true;
                     button1.Visible = false;
                     button2.Visible = true;
                     comboBox1.Enabled = false;
-                    comboBox2.Enabled = false;
+                   // comboBox2.Enabled = false;
                     radioButton1.Visible = false;
                     radioButton2.Visible = false;
                     label1.Visible = false;
@@ -180,12 +199,14 @@ namespace BankSystem
                     button3.Text = "Transfer stats";
                     listBox1.Visible = true;
                 }
-                if (model.GetLoggedManager() != null && comboBox2.Text == "Manager")
+                if (model.GetLoggedManager() != null)
                 {
+                    label19.Text = "Manager";
+                    label19.Visible = true;
                     button1.Visible = false;
                     button2.Visible = true;
                     comboBox1.Enabled = false;
-                    comboBox2.Enabled = false;
+                    //comboBox2.Enabled = false;
                     radioButton1.Visible = false;
                     radioButton2.Visible = false;
                     label1.Visible = false;
@@ -211,31 +232,24 @@ namespace BankSystem
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (comboBox2.Text == "Client")
-            {
-                radioButton2.Visible = true;
-            }
-            else
-            {
-                radioButton2.Visible = false;
-                radioButton1.Checked = true;
-            }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             model = presenter.Exit();
+            label19.Visible = false;
             button1.Visible = true;
             button2.Visible = false;
             comboBox1.Enabled = true;
-            comboBox2.Enabled = true;
+            //comboBox2.Enabled = true;
             comboBox3.Visible = false;
             comboBox4.Visible = false;
             radioButton1.Visible = true;
-            if (comboBox2.Text == "Client")
-            { 
+            //if (comboBox2.Text == "Client")
+            //{ 
                 radioButton2.Visible = true; 
-            }
+            //}
             label1.Visible = true;
             label2.Visible = true;
             textBox1.Visible = true;
@@ -290,24 +304,31 @@ namespace BankSystem
         {
             if (button3.Text == "Open")
             {
-                model = presenter.OpenAccount(comboBox1.SelectedIndex, Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text), Convert.ToInt32(textBox9.Text));
-                listBox1.Items.Clear();
-                listBox2.Items.Clear();
-                foreach (Account account in model.GetLoggedClient().accounts)
+                if (textBox7.Text != "" && textBox8.Text != "" && textBox9.Text != "")
                 {
-                    listBox1.Items.Add(account.Number);
-                    listBox2.Items.Add(account.Sum);
+                    model = presenter.OpenAccount(comboBox1.SelectedIndex, Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text), Convert.ToInt32(textBox9.Text));
+                    listBox1.Items.Clear();
+                    listBox2.Items.Clear();
+                    foreach (Account account in model.GetLoggedClient().accounts)
+                    {
+                        listBox1.Items.Add(account.Number);
+                        listBox2.Items.Add(account.Sum);
+                    }
                 }
             }
             if (button3.Text == "Salary project")
             {
                 model = presenter.FormSalaryProject(comboBox1.SelectedIndex);
+                button3.Visible = false;
             }
             if (button3.Text == "Salary")
             {
-                model = presenter.AddSalary(Convert.ToInt32(textBox8.Text));
+                if (textBox8.Text != "")
+                { 
+                    model = presenter.AddSalary(Convert.ToInt32(textBox8.Text)); 
+                }
             }
-            if (button3.Text == "Transfer stats" && comboBox2.Text == "Operator")
+            if (button3.Text == "Transfer stats" && model.GetLoggedOperator() != null)
             {
                 listBox1.Items.Clear();
                 foreach (string st in model.GetLoggedOperator().OperatorLogs)
@@ -315,10 +336,18 @@ namespace BankSystem
                     listBox1.Items.Add(st);
                 }
             }
-            if (button3.Text == "Transfer stats" && comboBox2.Text == "Manager")
+            if (button3.Text == "Transfer stats" && model.GetLoggedManager() != null)
             {
                 listBox1.Items.Clear();
                 foreach (string st in model.GetLoggedManager().ManagerLogs)
+                {
+                    listBox1.Items.Add(st);
+                }
+            }
+            if (button3.Text == "Logs" && model.GetLoggedAdministrator() != null)
+            {
+                listBox1.Items.Clear();
+                foreach (string st in model.GetLoggedAdministrator().AdminLogs)
                 {
                     listBox1.Items.Add(st);
                 }
@@ -337,43 +366,55 @@ namespace BankSystem
 
         private void button5_Click(object sender, EventArgs e)
         {
-            model = presenter.Withdraw(comboBox1.SelectedIndex, Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text));
-            listBox2.Items.Clear();
-            foreach (Account account in model.GetLoggedClient().accounts)
+            if (textBox7.Text != "" && textBox8.Text != "")
             {
-                listBox2.Items.Add(account.Sum);
+                model = presenter.Withdraw(comboBox1.SelectedIndex, Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text));
+                listBox2.Items.Clear();
+                foreach (Account account in model.GetLoggedClient().accounts)
+                {
+                    listBox2.Items.Add(account.Sum);
+                }
             }
         }
 
         private void button6_Click(object sender, EventArgs e)
         {
-            model = presenter.Accumulate(comboBox1.SelectedIndex, Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text));
-            listBox2.Items.Clear();
-            foreach (Account account in model.GetLoggedClient().accounts)
+            if (textBox7.Text != "" && textBox8.Text != "")
             {
-                listBox2.Items.Add(account.Sum);
+                model = presenter.Accumulate(comboBox1.SelectedIndex, Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text));
+                listBox2.Items.Clear();
+                foreach (Account account in model.GetLoggedClient().accounts)
+                {
+                    listBox2.Items.Add(account.Sum);
+                }
             }
         }
 
         private void button7_Click(object sender, EventArgs e)
         {
-            model = presenter.Freeze(comboBox1.SelectedIndex, Convert.ToInt32(textBox8.Text));
-            listBox2.Items.Clear();
-            foreach (Account account in model.GetLoggedClient().accounts)
+            if (textBox8.Text != "")
             {
-                listBox2.Items.Add(account.Sum);
+                model = presenter.Freeze(comboBox1.SelectedIndex, Convert.ToInt32(textBox8.Text));
+                listBox2.Items.Clear();
+                foreach (Account account in model.GetLoggedClient().accounts)
+                {
+                    listBox2.Items.Add(account.Sum);
+                }
             }
         }
 
         private void button8_Click(object sender, EventArgs e)
         {
-            model = presenter.Block(comboBox1.SelectedIndex, Convert.ToInt32(textBox8.Text));
-            listBox1.Items.Clear();
-            listBox2.Items.Clear();
-            foreach (Account account in model.GetLoggedClient().accounts)
+            if (textBox8.Text != "")
             {
-                listBox2.Items.Add(account.Sum);
-                listBox1.Items.Add(account.Number);
+                model = presenter.Block(comboBox1.SelectedIndex, Convert.ToInt32(textBox8.Text));
+                listBox1.Items.Clear();
+                listBox2.Items.Clear();
+                foreach (Account account in model.GetLoggedClient().accounts)
+                {
+                    listBox2.Items.Add(account.Sum);
+                    listBox1.Items.Add(account.Number);
+                }
             }
         }
 
@@ -400,29 +441,35 @@ namespace BankSystem
 
         private void button9_Click(object sender, EventArgs e)
         {
-            if (comboBox2.Text == "Client")
+            if (model.GetLoggedClient() != null)
             {
-                if (radioButton4.Checked == true)
+                if (textBox7.Text != "" && textBox8.Text != "" && textBox9.Text != "" && model.GetLoggedClient().accounts.Count != 0)
                 {
-                    model = presenter.Transfer(comboBox1.SelectedIndex, Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text), Convert.ToInt32(textBox12.Text), radioButton4.Text, textBox11.Text, textBox10.Text, textBox13.Text);
-                }
-                if (radioButton3.Checked == true)
-                {
-                    model = presenter.Transfer(comboBox1.SelectedIndex, Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text), Convert.ToInt32(textBox12.Text), radioButton3.Text, textBox11.Text, textBox10.Text);
-                }
-                listBox1.Items.Clear();
-                listBox2.Items.Clear();
-                foreach (Account account in model.GetLoggedClient().accounts)
-                {
-                    listBox2.Items.Add(account.Sum);
-                    listBox1.Items.Add(account.Number);
+                    if (radioButton4.Checked == true)
+                    {
+                        model = presenter.Transfer(comboBox1.SelectedIndex, Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text), Convert.ToInt32(textBox12.Text), radioButton4.Text, textBox11.Text, textBox10.Text, textBox13.Text);
+                    }
+                    if (radioButton3.Checked == true)
+                    {
+                        model = presenter.Transfer(comboBox1.SelectedIndex, Convert.ToInt32(textBox7.Text), Convert.ToInt32(textBox8.Text), Convert.ToInt32(textBox12.Text), radioButton3.Text, textBox11.Text, textBox10.Text);
+                    }
+                    listBox1.Items.Clear();
+                    listBox2.Items.Clear();
+                    foreach (Account account in model.GetLoggedClient().accounts)
+                    {
+                        listBox2.Items.Add(account.Sum);
+                        listBox1.Items.Add(account.Number);
+                    }
                 }
             }
-            if (comboBox2.Text == "Specialist")
+            if (model.GetLoggedSpecialist() != null)
             {
-                listBox2.Items.Clear();
-                model = presenter.TransferCompany(comboBox1.SelectedIndex, textBox14.Text, Convert.ToInt32(textBox7.Text));
-                listBox2.Items.Add(model.GetLoggedSpecialist().company.Sum);
+                if (textBox7.Text != "")
+                {
+                    listBox2.Items.Clear();
+                    model = presenter.TransferCompany(comboBox1.SelectedIndex, textBox14.Text, Convert.ToInt32(textBox7.Text));
+                    listBox2.Items.Add(model.GetLoggedSpecialist().company.Sum);
+                }
             }
         }
 
@@ -483,24 +530,30 @@ namespace BankSystem
         {
             if (radioButton6.Checked == true)
             {
-                model.CreateCredit(comboBox1.SelectedIndex, double.Parse(textBox7.Text), double.Parse(textBox8.Text), double.Parse(comboBox3.Text), comboBox4.Text);
-                listBox1.Items.Clear();
-                listBox2.Items.Clear();
-                foreach (Credit account in model.GetLoggedClient().credits)
+                if (textBox7.Text != "" && textBox8.Text != "" && comboBox3.Text != "" && comboBox4.Text != "")
                 {
-                    listBox1.Items.Add((int)account.platezh);
-                    listBox2.Items.Add((int)account.Sum);
+                    model.CreateCredit(comboBox1.SelectedIndex, double.Parse(textBox7.Text), double.Parse(textBox8.Text), double.Parse(comboBox3.Text), comboBox4.Text);
+                    listBox1.Items.Clear();
+                    listBox2.Items.Clear();
+                    foreach (Credit account in model.GetLoggedClient().credits)
+                    {
+                        listBox1.Items.Add((int)account.platezh);
+                        listBox2.Items.Add((int)account.Sum);
+                    } 
                 }
             }
             if (radioButton7.Checked == true)
             {
-                model.CreateInstallmentPlan(comboBox1.SelectedIndex, double.Parse(textBox7.Text), double.Parse(comboBox3.Text));
-                listBox1.Items.Clear();
-                listBox2.Items.Clear();
-                foreach (InstallmentPlan account in model.GetLoggedClient().InstallmentPlans)
+                if (textBox7.Text != "" && comboBox3.Text != "")
                 {
-                    listBox1.Items.Add((int)account.platezh);
-                    listBox2.Items.Add((int)account.Sum);
+                    model.CreateInstallmentPlan(comboBox1.SelectedIndex, double.Parse(textBox7.Text), double.Parse(comboBox3.Text));
+                    listBox1.Items.Clear();
+                    listBox2.Items.Clear();
+                    foreach (InstallmentPlan account in model.GetLoggedClient().InstallmentPlans)
+                    {
+                        listBox1.Items.Add((int)account.platezh);
+                        listBox2.Items.Add((int)account.Sum);
+                    }
                 }
             }
         }
@@ -696,12 +749,12 @@ namespace BankSystem
 
         private void button14_Click(object sender, EventArgs e)
         {
-            if (comboBox2.Text == "Administrator")
+            if (model.GetLoggedAdministrator() != null)
             {
                 model = presenter.CancellationSpecialist(comboBox1.SelectedIndex, textBox11.Text);
             }
 
-            if (comboBox2.Text == "Manager")
+            if (model.GetLoggedManager() != null)
             {
                 model = presenter.CancellationSpecialistManager(comboBox1.SelectedIndex, textBox11.Text);
             }
@@ -714,6 +767,52 @@ namespace BankSystem
             foreach (Client client in model.GetLoggedManager().ApproveClient)
             {
                 listBox3.Items.Add(client.IdentificationNumber);
+            }
+        }
+
+        private void textBox7_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && number != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox8_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox8_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && number != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox9_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && number != 8)
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void textBox12_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void textBox12_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            char number = e.KeyChar;
+            if ((e.KeyChar <= 47 || e.KeyChar >= 58) && number != 8)
+            {
+                e.Handled = true;
             }
         }
     }

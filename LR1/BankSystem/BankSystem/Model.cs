@@ -38,16 +38,16 @@ namespace BankSystem
             banks[2].specialists.Add(new("Fer", "7534", "Yak", "6434", new Company("IP", "Chokobo", "568234854", banks[2].BankBIC, "Tokyo", 1230000)));
             banks[2].specialists.Add(new("Fer", "8653", "Kevin", "8634", new Company("IP", "Kerniks", "245249652", banks[2].BankBIC, "London", 430000)));
             banks[2].specialists.Add(new("Fer", "5467", "John", "8634", new Company("OOO", "Regaliya", "345195432", banks[2].BankBIC, "Paris", 230000)));
-            banks[0].administrator = new Administrator("Fer", "123", "Jorge", "43525");
+            banks[0].administrator = new Administrator("Fer", "324", "Jorge", "43525");
             banks[1].administrator = new Administrator("Fer", "5432", "Mike", "6342432");
             banks[2].administrator = new Administrator("Fer", "6432", "Chris", "543232");
-            banks[0]._operator = new Operator("Fer", "352", "Josh", "346643");
-            banks[1]._operator = new Operator("Fer", "523", "Sam", "346436");
+            banks[0]._operator = new Operator("Fer", "234", "Josh", "346643");
+            banks[1]._operator = new Operator("Fer", "231", "Sam", "346436");
             banks[2]._operator = new Operator("Fer", "6423532", "Matt", "3634633");
             banks[0].manager = new Manager("Fer", "23", "Jess", "32445");
-            banks[1].manager = new Manager("Fer", "6433", "Ashley", "54345");
+            banks[1].manager = new Manager("Fer", "563", "Ashley", "54345");
             banks[2].manager = new Manager("Fer", "24", "Bruce", "3252");
-            List<string> database = File.ReadAllLines(@"C:\Users\uladl\OOP\LR1\BankSystem\BankSystem\database.txt").ToList();
+            List<string> database = File.ReadAllLines(@"C:\БД\database.txt").ToList();
             database.RemoveAt(0);
             foreach (string line in database)
             {
@@ -168,89 +168,80 @@ namespace BankSystem
         }
         public void Registration(int n, string phoneNumber, string passportNumber, string ID, string name, string email, string password)
         {
-            //string path = @"C:\БД\database.txt";
-            bool contains = false;
+            //bool contains = false;
             for (int i = 0; i < banks[n].clients.Count(); i++)
             {
-                if (banks[n].clients[i].PhoneNumber == phoneNumber || banks[n].clients[i].PassportNumber == passportNumber || banks[n].clients[i].IdentificationNumber == ID)
+                if (/*banks[n].clients[i].PhoneNumber == phoneNumber || banks[n].clients[i].PassportNumber == passportNumber ||*/ banks[n].clients[i].IdentificationNumber == ID)
                 {
-                    contains = true;
-                    break;
+                    //contains = true;
+                    return;
                 }
             }
-            if (contains == false)
+            if (banks[n]._operator.IdentificationNumber == ID)
             {
+                return;
+            }
+            if (banks[n].manager.IdentificationNumber == ID)
+            {
+                return;
+            }
+            if (banks[n].administrator.IdentificationNumber == ID)
+            {
+                return;
+            }
+            for (int i = 0; i < banks[n].specialists.Count(); i++)
+            {
+                if (/*banks[n].clients[i].PhoneNumber == phoneNumber || banks[n].clients[i].PassportNumber == passportNumber ||*/ banks[n].specialists[i].IdentificationNumber == ID)
+                {
+                    return;
+                }
+            }
+            //if (contains == false)
+            //{
                 banks[n].manager.ApproveClient.Add(new Client(name, phoneNumber, password, email, passportNumber, ID));
-                /*using (StreamWriter writer = new StreamWriter(path, true))
-                {
-                    writer.WriteLine(RomanCipher(banks[n].LegalName) + ";" + RomanCipher(name) + ";" + RomanCipher(phoneNumber) + ";" + RomanCipher(email) + ";" + RomanCipher(passportNumber) + ";" + RomanCipher(ID) + ";" + RomanCipher(password) + ";");
-                }
-                banks[n].Register(name, phoneNumber, password, email, passportNumber, ID);
-                banks[n].administrator.AdminLogs.Add($"Client {name} with ID({ID}) was registered");*/
-            }
+            //}
         }
-        public void LogIn(int n,string usertype, string ID, string password)
+        public void LogIn(int n, string ID, string password)
         {
-            if (usertype == "Client")
-            {
                 foreach (Client client in banks[n].clients)
                 {
                     if (client.IdentificationNumber == ID && client.Password == password)
                     {
                         loggedClient = client;
                         banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({ID}) was LogIn");
-                        break;
+                        return;
                     }
                 }
-            }
-            else
-            {
-                if (usertype == "Operator")
+
+                if (banks[n]._operator.IdentificationNumber == ID && banks[n]._operator.Password == password)
                 {
-                    if (banks[n]._operator.IdentificationNumber == ID && banks[n]._operator.Password == password)
-                    {
-                        loggedOperator = banks[n]._operator;
-                        banks[n].administrator.AdminLogs.Add($"Operator {loggedOperator.FullName} with ID({ID}) was LogIn");
-                    }
+                    loggedOperator = banks[n]._operator;
+                    banks[n].administrator.AdminLogs.Add($"Operator {loggedOperator.FullName} with ID({ID}) was LogIn");
+                    return;
                 }
-                else
+                if (banks[n].manager.IdentificationNumber == ID && banks[n].manager.Password == password)
                 {
-                    if (usertype == "Manager")
+                    loggedManager = banks[n].manager;
+                    banks[n].administrator.AdminLogs.Add($"Manager {loggedManager.FullName} with ID({ID}) was LogIn");
+                    return;
+                }
+
+                foreach (Specialist specialist in banks[n].specialists)
+                {
+                    if (specialist.IdentificationNumber == ID && specialist.Password == password)
                     {
-                        if (banks[n].manager.IdentificationNumber == ID && banks[n].manager.Password == password)
-                        {
-                            loggedManager = banks[n].manager;
-                            banks[n].administrator.AdminLogs.Add($"Manager {loggedManager.FullName} with ID({ID}) was LogIn");
-                        }
-                    }
-                    else
-                    {
-                        if (usertype == "Specialist")
-                        {
-                            foreach (Specialist specialist in banks[n].specialists)
-                            {
-                                if (specialist.IdentificationNumber == ID && specialist.Password == password)
-                                {
-                                    loggedSpecialist = specialist;
-                                    banks[n].administrator.AdminLogs.Add($"Specialist {loggedSpecialist.FullName} with ID({ID}) was LogIn");
-                                    break;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (usertype == "Administrator")
-                            {
-                                if (banks[n].administrator.IdentificationNumber == ID && banks[n].administrator.Password == password)
-                                {
-                                    loggedAdministrator = banks[n].administrator;
-                                    banks[n].administrator.AdminLogs.Add($"Administrator {loggedAdministrator.FullName} with ID({ID}) was LogIn");
-                                }
-                            }
-                        }
+                        loggedSpecialist = specialist;
+                        banks[n].administrator.AdminLogs.Add($"Specialist {loggedSpecialist.FullName} with ID({ID}) was LogIn");
+                        return;
                     }
                 }
-            }
+
+                if (banks[n].administrator.IdentificationNumber == ID && banks[n].administrator.Password == password)
+                {
+                    loggedAdministrator = banks[n].administrator;
+                    banks[n].administrator.AdminLogs.Add($"Administrator {loggedAdministrator.FullName} with ID({ID}) was LogIn");
+                    return;
+                }                                          
         }
         public void Exit()
         {
@@ -607,6 +598,10 @@ namespace BankSystem
                 if (client.IdentificationNumber == ID)
                 {
                     var snapshot = loggedAdministrator.caretakerClients.Restore(k);
+                    if (snapshot == null)
+                    {
+                        return;
+                    }
                     //if (snapshot != null)
                     //{ 
                         client.Restore(snapshot); 
@@ -624,6 +619,10 @@ namespace BankSystem
                 if (specialist.IdentificationNumber == ID)
                 {
                     var snapshot = loggedAdministrator.caretakerSpecialists.Restore(k);
+                    if (snapshot == null)
+                    {
+                        return;
+                    }
                     specialist.Restore(snapshot);
                     break;
                 }
@@ -638,6 +637,10 @@ namespace BankSystem
                 if (specialist.IdentificationNumber == ID)
                 {
                     var snapshot = banks[n].administrator.caretakerSpecialists.Restore(k);
+                    if (snapshot == null)
+                    {
+                        return;
+                    }
                     specialist.Restore(snapshot);
                     break;
                 }
@@ -650,7 +653,7 @@ namespace BankSystem
             {
                 if (client.IdentificationNumber == ID)
                 {
-                    string path = @"C:\Users\uladl\OOP\LR1\BankSystem\BankSystem\database.txt";
+                    string path = @"C:\БД\database.txt";
                     using (StreamWriter writer = new StreamWriter(path, true))
                     {
                         writer.WriteLine(RomanCipher(banks[n].LegalName) + ";" + RomanCipher(client.FullName) + ";" + RomanCipher(client.PhoneNumber) + ";" + RomanCipher(client.Email) + ";" + RomanCipher(client.PassportNumber) + ";" + RomanCipher(client.IdentificationNumber) + ";" + RomanCipher(client.Password) + ";");

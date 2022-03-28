@@ -67,8 +67,15 @@ namespace BankSystem
         }
         public SnapshotClient Restore(int k)
         {
-            var result = snapshots[k].Pop();
-            return result.Clone() as SnapshotClient;
+            if (snapshots[k].Count > 0)
+            {
+                var result = snapshots[k].Pop();
+                return result.Clone() as SnapshotClient;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 
@@ -108,8 +115,15 @@ namespace BankSystem
         }
         public SnapshotSpecialist Restore(int k)
         {
-            var result = snapshots[k].Pop();
-            return result.Clone() as SnapshotSpecialist;
+            if (snapshots[k].Count > 0)
+            {
+                var result = snapshots[k].Pop();
+                return result.Clone() as SnapshotSpecialist;
+            }
+            else
+            {
+                return null;
+            }
         }
     }
 }

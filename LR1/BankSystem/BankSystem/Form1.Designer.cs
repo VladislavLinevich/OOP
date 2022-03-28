@@ -36,7 +36,6 @@ namespace BankSystem
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
             this.textBox4 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -94,6 +93,7 @@ namespace BankSystem
             this.button14 = new System.Windows.Forms.Button();
             this.button15 = new System.Windows.Forms.Button();
             this.listBox3 = new System.Windows.Forms.ListBox();
+            this.label19 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -164,22 +164,6 @@ namespace BankSystem
             this.label2.Size = new System.Drawing.Size(57, 15);
             this.label2.TabIndex = 6;
             this.label2.Text = "Password";
-            // 
-            // comboBox2
-            // 
-            this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
-            "Client",
-            "Operator",
-            "Manager",
-            "Specialist",
-            "Administrator"});
-            this.comboBox2.Location = new System.Drawing.Point(255, 30);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(121, 23);
-            this.comboBox2.TabIndex = 7;
-            this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
             // textBox3
             // 
@@ -347,6 +331,7 @@ namespace BankSystem
             this.textBox7.Size = new System.Drawing.Size(100, 23);
             this.textBox7.TabIndex = 25;
             this.textBox7.Visible = false;
+            this.textBox7.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox7_KeyPress);
             // 
             // textBox8
             // 
@@ -355,6 +340,8 @@ namespace BankSystem
             this.textBox8.Size = new System.Drawing.Size(100, 23);
             this.textBox8.TabIndex = 26;
             this.textBox8.Visible = false;
+            this.textBox8.TextChanged += new System.EventHandler(this.textBox8_TextChanged);
+            this.textBox8.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox8_KeyPress);
             // 
             // label8
             // 
@@ -393,6 +380,7 @@ namespace BankSystem
             this.textBox9.Size = new System.Drawing.Size(100, 23);
             this.textBox9.TabIndex = 30;
             this.textBox9.Visible = false;
+            this.textBox9.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox9_KeyPress);
             // 
             // listBox1
             // 
@@ -542,6 +530,8 @@ namespace BankSystem
             this.textBox12.Size = new System.Drawing.Size(100, 23);
             this.textBox12.TabIndex = 43;
             this.textBox12.Visible = false;
+            this.textBox12.TextChanged += new System.EventHandler(this.textBox12_TextChanged);
+            this.textBox12.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.textBox12_KeyPress);
             // 
             // label16
             // 
@@ -768,11 +758,22 @@ namespace BankSystem
             this.listBox3.TabIndex = 59;
             this.listBox3.Visible = false;
             // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Location = new System.Drawing.Point(519, 30);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(30, 15);
+            this.label19.TabIndex = 60;
+            this.label19.Text = "User";
+            this.label19.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1149, 647);
+            this.Controls.Add(this.label19);
             this.Controls.Add(this.listBox3);
             this.Controls.Add(this.button15);
             this.Controls.Add(this.button14);
@@ -824,7 +825,6 @@ namespace BankSystem
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox4);
             this.Controls.Add(this.textBox3);
-            this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textBox2);
@@ -852,7 +852,6 @@ namespace BankSystem
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.TextBox textBox3;
         private System.Windows.Forms.TextBox textBox4;
         private System.Windows.Forms.Label label3;
@@ -910,6 +909,7 @@ namespace BankSystem
         private System.Windows.Forms.Button button14;
         private System.Windows.Forms.Button button15;
         private System.Windows.Forms.ListBox listBox3;
+        private System.Windows.Forms.Label label19;
     }
 }
 

@@ -27,12 +27,11 @@ namespace BankSystem
             return model;
         }
 
-        public Model LogIn(int n, string usertype, string ID, string password)
+        public Model LogIn(int n, string ID, string password)
         {
-            usertype = usertype.Trim();
             ID = ID.Trim();
             password = password.Trim();
-            model.LogIn(n, usertype, ID, password);
+            model.LogIn(n, ID, password);
             return model;
         }
         public Model Exit()
