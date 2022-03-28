@@ -47,7 +47,7 @@ namespace BankSystem
             banks[0].manager = new Manager("Fer", "23", "Jess", "32445");
             banks[1].manager = new Manager("Fer", "6433", "Ashley", "54345");
             banks[2].manager = new Manager("Fer", "24", "Bruce", "3252");
-            List<string> database = File.ReadAllLines(@"C:\БД\database.txt").ToList();
+            List<string> database = File.ReadAllLines(@"C:\Users\uladl\OOP\LR1\BankSystem\BankSystem\database.txt").ToList();
             database.RemoveAt(0);
             foreach (string line in database)
             {
@@ -650,7 +650,7 @@ namespace BankSystem
             {
                 if (client.IdentificationNumber == ID)
                 {
-                    string path = @"C:\БД\database.txt";
+                    string path = @"C:\Users\uladl\OOP\LR1\BankSystem\BankSystem\database.txt";
                     using (StreamWriter writer = new StreamWriter(path, true))
                     {
                         writer.WriteLine(RomanCipher(banks[n].LegalName) + ";" + RomanCipher(client.FullName) + ";" + RomanCipher(client.PhoneNumber) + ";" + RomanCipher(client.Email) + ";" + RomanCipher(client.PassportNumber) + ";" + RomanCipher(client.IdentificationNumber) + ";" + RomanCipher(client.Password) + ";");
