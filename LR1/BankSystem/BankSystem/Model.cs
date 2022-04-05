@@ -7,7 +7,7 @@ using System.IO;
 
 namespace BankSystem
 {
-    class Model
+    public class Model
     {
         private List<Bank> banks;
         private Client loggedClient;
@@ -47,7 +47,7 @@ namespace BankSystem
             banks[0].manager = new Manager("Fer", "23", "Jess", "32445");
             banks[1].manager = new Manager("Fer", "563", "Ashley", "54345");
             banks[2].manager = new Manager("Fer", "24", "Bruce", "3252");
-            List<string> database = File.ReadAllLines(@"C:\БД\database.txt").ToList();
+            List<string> database = File.ReadAllLines(@"C:\Users\uladl\OOP\LR1\BankSystem\BankSystem\database.txt").ToList();
             database.RemoveAt(0);
             foreach (string line in database)
             {
@@ -166,7 +166,7 @@ namespace BankSystem
             }
             return deCipher;
         }
-        public void Registration(int n, string phoneNumber, string passportNumber, string ID, string name, string email, string password)
+        public void Registration(int n, string phoneNumber, string passportNumber, string ID, string name, string email, string password, ref string str)
         {
             //bool contains = false;
             for (int i = 0; i < banks[n].clients.Count(); i++)
@@ -174,6 +174,13 @@ namespace BankSystem
                 if (/*banks[n].clients[i].PhoneNumber == phoneNumber || banks[n].clients[i].PassportNumber == passportNumber ||*/ banks[n].clients[i].IdentificationNumber == ID)
                 {
                     //contains = true;
+                    return;
+                }
+            }
+            for (int i = 0; i < banks[n].manager.ApproveClient.Count(); i++)
+            {
+                if (banks[n].manager.ApproveClient[i].IdentificationNumber == ID)
+                {
                     return;
                 }
             }
@@ -199,6 +206,7 @@ namespace BankSystem
             //if (contains == false)
             //{
                 banks[n].manager.ApproveClient.Add(new Client(name, phoneNumber, password, email, passportNumber, ID));
+            str = "Register";
             //}
         }
         public void LogIn(int n, string ID, string password)
@@ -287,6 +295,10 @@ namespace BankSystem
             {
                 if (client.IdentificationNumber == loggedClient.IdentificationNumber)
                 {
+                    if (client.accounts.Count() == 0)
+                    {
+                        return;
+                    }
                     break;
                 }
                 k++;
@@ -303,6 +315,23 @@ namespace BankSystem
             {
                 if (client.IdentificationNumber == loggedClient.IdentificationNumber)
                 {
+                    bool contains = false;
+                    foreach (Account account in client.accounts)
+                    {
+                        if (account.Number == id)
+                        {
+                            contains = true;
+                            if(account.Sum - sum <= 0)
+                            {
+                                return;
+                            }
+                            break;
+                        }
+                    }
+                    if (contains == false)
+                    {
+                        return;
+                    }
                     break;
                 }
                 k++;
@@ -319,6 +348,19 @@ namespace BankSystem
             {
                 if (client == loggedClient)
                 {
+                    bool contains = false;
+                    foreach (Account account in client.accounts)
+                    {
+                        if (account.Number == id)
+                        {
+                            contains = true;
+                            break;
+                        }
+                    }
+                    if (contains == false)
+                    {
+                        return;
+                    }
                     break;
                 }
                 k++;
@@ -335,6 +377,19 @@ namespace BankSystem
             {
                 if (client == loggedClient)
                 {
+                    bool contains = false;
+                    foreach (Account account in client.accounts)
+                    {
+                        if (account.Number == id)
+                        {
+                            contains = true;
+                            break;
+                        }
+                    }
+                    if (contains == false)
+                    {
+                        return;
+                    }
                     break;
                 }
                 k++;
@@ -344,29 +399,51 @@ namespace BankSystem
             banks[n].Block(loggedClient, id);
             banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) block account");
         }
-        public void Freeze(int n, int id)
+        public void Freeze(int n, int id, ref string str)
         {
             int k = 0;
             foreach (Client client in banks[n].clients)
             {
                 if (client == loggedClient)
                 {
+                    bool contains = false;
+                    foreach (Account account in client.accounts)
+                    {
+                        if (account.Number == id)
+                        {
+                            contains = true;
+                            if (account.Freeze == true)
+                            {
+                                str = "this account is already frozen";
+                                return;
+                            }
+                            break;
+                        }
+                    }
+                    if (contains == false)
+                    {
+                        return;
+                    }
                     break;
                 }
                 k++;
             }
             var snap = loggedClient.CreateSnapshot();
             banks[n].administrator.caretakerClients.Save(snap, k);
-            banks[n].Freeze(loggedClient, id);
+            banks[n].Freeze(loggedClient, id, ref str);
             banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) freeze account");
         }
-        public void Transfer(int n, int sum, int loggedaccountNumber, int accountNumber, string transfername, string id, string BIC_bankName, string clientName = "")
+        public void Transfer(int n, int sum, int loggedaccountNumber, int accountNumber, string transfername, string id, string BIC_bankName,ref string str, string clientName = "")
         {
             Account account1 = null;
             foreach (Account account in loggedClient.accounts)
             {
                 if (account.Number == loggedaccountNumber)
                 {
+                    if (account.Sum - sum < 0)
+                    {
+                        return;
+                    }
                     account1 = account;
                     break;
                 }
@@ -395,7 +472,8 @@ namespace BankSystem
                                     banks[n].Transfer(new WesternUnionTransfer(), account1, account, sum);
                                     banks[n]._operator.OperatorLogs.Add($"Client {loggedClient.FullName} use Western Union, transfer {sum} moneys to {banks[k].LegalName} to client {client.FullName}");
                                     banks[n].manager.ManagerLogs.Add($"Client {loggedClient.FullName} use Western Union, transfer {sum} moneys to {banks[k].LegalName} to client {client.FullName}");
-                                    banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) Western Union transfer account to {banks[k]} to client {client.FullName}");
+                                    banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) Western Union transfer account from {banks[k].LegalName} to client {client.FullName}");
+                                    str = $"Western Union transfer account from {banks[k].LegalName} to client {client.FullName}";
                                     break;
                                 }
                             }
@@ -429,6 +507,7 @@ namespace BankSystem
                                     banks[n]._operator.OperatorLogs.Add($"Client {loggedClient.FullName} use SWIFT, transfer {sum} moneys to {banks[k].LegalName} to client {client.FullName}");
                                     banks[n].manager.ManagerLogs.Add($"Client {loggedClient.FullName} use SWIFT, transfer {sum} moneys to {banks[k].LegalName} to client {client.FullName}");
                                     banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) SWIFT transfer account in {banks[k]} to client {client.FullName}");
+                                    str = $"SWIFT transfer account from {banks[k].LegalName} to client {client.FullName}";
                                     break;
                                 }
                             }
@@ -440,7 +519,7 @@ namespace BankSystem
         }
         public void CreateCredit(int n, double sum, double bid, double time, string CreditType) 
         {
-            int k = 0;
+            /*int k = 0;
             foreach (Client client in banks[n].clients)
             {
                 if (client == loggedClient)
@@ -448,22 +527,30 @@ namespace BankSystem
                     break;
                 }
                 k++;
-            }
-            var snap = loggedClient.CreateSnapshot();
-            banks[n].administrator.caretakerClients.Save(snap, k);
+            }*/
+            /*var snap = loggedClient.CreateSnapshot();
+            banks[n].administrator.caretakerClients.Save(snap, k);*/
             if (CreditType == "Annuity")
             {
-                loggedClient.CreateCredit(new AnnuityCredit(sum, bid, time));
-                banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) create Annuity credit");
+                banks[n].manager.ClientIDCredits.Add(loggedClient.IdentificationNumber);
+                banks[n].manager.ApproveCredits.Add(new AnnuityCredit(sum, bid, time));
+                //loggedClient.CreateCredit(new AnnuityCredit(sum, bid, time));
+                //banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) create Annuity credit");
             }
             if (CreditType == "Differentiated")
             {
-                loggedClient.CreateCredit(new DifferentiatedCredit(sum, bid, time));
-                banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) create differentiated credit");
+                banks[n].manager.ClientIDCredits.Add(loggedClient.IdentificationNumber);
+                banks[n].manager.ApproveCredits.Add(new DifferentiatedCredit(sum, bid, time));
+                //loggedClient.CreateCredit(new DifferentiatedCredit(sum, bid, time));
+                //banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) create differentiated credit");
             }
         }
         public void MonthlyPayed(int n)
         {
+            if (loggedClient.credits.Count() == 0)
+            {
+                return;
+            }
             int k = 0;
             foreach (Client client in banks[n].clients)
             {
@@ -490,7 +577,7 @@ namespace BankSystem
         }
         public void CreateInstallmentPlan(int n, double sum, double time)
         {
-            int k = 0;
+            /*int k = 0;
             foreach (Client client in banks[n].clients)
             {
                 if (client == loggedClient)
@@ -500,12 +587,18 @@ namespace BankSystem
                 k++;
             }
             var snap = loggedClient.CreateSnapshot();
-            banks[n].administrator.caretakerClients.Save(snap, k);
-            loggedClient.CreateInstallmentPlan(new InterestFreeInstallment(sum, time));
-            banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) create installment plan");
+            banks[n].administrator.caretakerClients.Save(snap, k);*/
+            //loggedClient.CreateInstallmentPlan(new InterestFreeInstallment(sum, time));
+            //banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) create installment plan");
+            banks[n].manager.ClientIDInstallment.Add(loggedClient.IdentificationNumber);
+            banks[n].manager.ApproveInstallment.Add(new InterestFreeInstallment(sum, time));
         }
         public void MonthlyPayedInstllment(int n)
         {
+            if (loggedClient.InstallmentPlans.Count() == 0)
+            {
+                return;
+            }
             int k = 0;
             foreach (Client client in banks[n].clients)
             {
@@ -561,6 +654,19 @@ namespace BankSystem
                 }
                 k++;
             }
+            bool contains = false;
+            foreach (Specialist specialist in banks[n].specialists)
+            {
+                if (specialist.company.LegalName == name && specialist.company.project != null)
+                {
+                    contains = true;
+                    break;
+                }
+            }
+            if (contains == false)
+            {
+                return;
+            }
             var snap = loggedClient.CreateSnapshot();
             banks[n].administrator.caretakerClients.Save(snap, k);
             foreach (Specialist specialist in banks[n].specialists)
@@ -571,9 +677,9 @@ namespace BankSystem
                     break;
                 }
             }
-            banks[n].administrator.AdminLogs.Add($"Specialist {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) add salary project");
+            banks[n].administrator.AdminLogs.Add($"Client {loggedClient.FullName} with ID({loggedClient.IdentificationNumber}) add salary project");
         }
-        public void TransferCompany(int n, string name, int sum)
+        public void TransferCompany(int n, string name, int sum, ref string str)
         {
             foreach (Bank bank in banks)
             { 
@@ -581,16 +687,21 @@ namespace BankSystem
                 {
                     if (specialist.company.LegalName == name)
                     {
+                        if (loggedSpecialist.company.Sum - sum < 0)
+                        {
+                            return;
+                        }
                         loggedSpecialist.Transfer(specialist.company, sum);
                         banks[n]._operator.OperatorLogs.Add($"Specialist {loggedSpecialist.FullName} transfer {loggedSpecialist.company.LegalName}Company{sum} monyes to {specialist.company.LegalName}Company");
                         banks[n].manager.ManagerLogs.Add($"Specialist {loggedSpecialist.FullName} transfer {loggedSpecialist.company.LegalName}Company {sum} monyes to {specialist.company.LegalName}Company");
                         banks[n].administrator.AdminLogs.Add($"Specialist {loggedSpecialist.FullName} with ID({loggedSpecialist.IdentificationNumber}) transfer {loggedSpecialist.company.LegalName}Company monyes to {specialist.company.LegalName}Company ");
+                        str = $"transfer { loggedSpecialist.company.LegalName}Company monyes to { specialist.company.LegalName}Company ";
                         break;
                     }
                 } 
             }
         }
-        public void CancellationClient(int n, string ID)
+        public void CancellationClient(int n, string ID, ref string str)
         {
             int k = 0;
             foreach (Client client in banks[n].clients)
@@ -600,18 +711,20 @@ namespace BankSystem
                     var snapshot = loggedAdministrator.caretakerClients.Restore(k);
                     if (snapshot == null)
                     {
+                        str = "Cant cancellate";
                         return;
                     }
                     //if (snapshot != null)
                     //{ 
-                        client.Restore(snapshot); 
+                    str = "Canceled the action of the client";
+                    client.Restore(snapshot); 
                     //}
                     break;
                 }
                 k++;
             }
         }
-        public void CancellationSpecialist(int n, string ID)
+        public void CancellationSpecialist(int n, string ID, ref string str)
         {
             int k = 0;
             foreach (Specialist specialist in banks[n].specialists)
@@ -621,15 +734,17 @@ namespace BankSystem
                     var snapshot = loggedAdministrator.caretakerSpecialists.Restore(k);
                     if (snapshot == null)
                     {
+                        str = "Cant cancellate";
                         return;
                     }
                     specialist.Restore(snapshot);
+                    str = "Canceled the action of the specialist";
                     break;
                 }
                 k++;
             }            
         }
-        public void CancellationSpecialistManager(int n, string ID)
+        public void CancellationSpecialistManager(int n, string ID, ref string str)
         {
             int k = 0;
             foreach (Specialist specialist in banks[n].specialists)
@@ -639,9 +754,11 @@ namespace BankSystem
                     var snapshot = banks[n].administrator.caretakerSpecialists.Restore(k);
                     if (snapshot == null)
                     {
+                        str = "Cant cancellate";
                         return;
                     }
                     specialist.Restore(snapshot);
+                    str = "Canceled the action of the specialist";
                     break;
                 }
                 k++;
@@ -653,7 +770,7 @@ namespace BankSystem
             {
                 if (client.IdentificationNumber == ID)
                 {
-                    string path = @"C:\БД\database.txt";
+                    string path = @"C:\Users\uladl\OOP\LR1\BankSystem\BankSystem\database.txt";
                     using (StreamWriter writer = new StreamWriter(path, true))
                     {
                         writer.WriteLine(RomanCipher(banks[n].LegalName) + ";" + RomanCipher(client.FullName) + ";" + RomanCipher(client.PhoneNumber) + ";" + RomanCipher(client.Email) + ";" + RomanCipher(client.PassportNumber) + ";" + RomanCipher(client.IdentificationNumber) + ";" + RomanCipher(client.Password) + ";");
@@ -663,6 +780,42 @@ namespace BankSystem
                     loggedManager.ApproveClient.Remove(client);
                     break;
                 }
+            }
+        }
+        public void ApproveCredits(int n, int index)
+        {
+            int k = 0;
+            foreach (Client client in banks[n].clients)
+            {
+                if (client.IdentificationNumber == loggedManager.ClientIDCredits[index])
+                {
+                    var snap = client.CreateSnapshot();
+                    banks[n].administrator.caretakerClients.Save(snap, k);
+                    client.CreateCredit(loggedManager.ApproveCredits[index]);
+                    banks[n].administrator.AdminLogs.Add($"Client {client.FullName} with ID({client.IdentificationNumber}) create credit");
+                    loggedManager.ClientIDCredits.RemoveAt(index);
+                    loggedManager.ApproveCredits.RemoveAt(index);
+                    break;
+                }
+                k++;
+            } 
+        }
+        public void ApproveInstallments(int n, int index)
+        {
+            int k = 0;
+            foreach (Client client in banks[n].clients)
+            {
+                if (client.IdentificationNumber == loggedManager.ClientIDInstallment[index])
+                {
+                    var snap = client.CreateSnapshot();
+                    banks[n].administrator.caretakerClients.Save(snap, k);
+                    client.CreateInstallmentPlan(loggedManager.ApproveInstallment[index]);
+                    banks[n].administrator.AdminLogs.Add($"Client {client.FullName} with ID({client.IdentificationNumber}) create installment plan");
+                    loggedManager.ClientIDInstallment.RemoveAt(index);
+                    loggedManager.ApproveInstallment.RemoveAt(index);
+                    break;
+                }
+                k++;
             }
         }
     }  

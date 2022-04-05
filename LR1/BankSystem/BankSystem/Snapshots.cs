@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankSystem
 {
-     class SnapshotClient: ICloneable
+     public class SnapshotClient: ICloneable
     {
         public int SumOnCard { get; set; }
         public int Salary { get; set; }
@@ -51,7 +51,7 @@ namespace BankSystem
             return MemberwiseClone();
         }
     }
-    class CaretakerClients
+    public class CaretakerClients
     {
         private List<Stack<SnapshotClient>> snapshots = new List<Stack<SnapshotClient>>();
         public CaretakerClients()
@@ -79,7 +79,7 @@ namespace BankSystem
         }
     }
 
-    class SnapshotSpecialist: ICloneable
+    public class SnapshotSpecialist: ICloneable
     {
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
@@ -99,7 +99,7 @@ namespace BankSystem
             return MemberwiseClone();
         }
     }
-    class CaretakerSpecialists
+    public class CaretakerSpecialists
     {
         private List<Stack<SnapshotSpecialist>> snapshots = new List<Stack<SnapshotSpecialist>>();
         public CaretakerSpecialists()

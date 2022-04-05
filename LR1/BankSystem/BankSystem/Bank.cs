@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankSystem
 {
-    abstract class Bank
+    public abstract class Bank
     {
         protected string legalName;
         public string BankBIC { get; set; }
@@ -82,20 +82,21 @@ namespace BankSystem
                 }
             }
         }
-        public void Freeze(Client client, int ID)
+        public void Freeze(Client client, int ID, ref string str)
         {
             foreach (Account account in client.accounts)
             {
                 if (account.Number == ID)
                 {
                     account.Freeze = true;
+                    str = $"Account with number {account.Number} freeze";
                 }
             }
         }
         public abstract void SalaryProject(ref int sum, int salary);
     }
 
-    class BelarusBank : Bank
+    public class BelarusBank : Bank
     {
         public BelarusBank(): base()
         {
@@ -108,7 +109,7 @@ namespace BankSystem
         }
     }
 
-    class BelinvestBank : Bank
+    public class BelinvestBank : Bank
     {
         public BelinvestBank(): base()
         {
@@ -121,7 +122,7 @@ namespace BankSystem
         }
     }
 
-    class AlphaBank : Bank
+    public class AlphaBank : Bank
     {
         public AlphaBank(): base()
         {

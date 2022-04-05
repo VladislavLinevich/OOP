@@ -11,8 +11,11 @@ namespace BankSystem
         public string Name { get; set; }
         public void transf(Account loggedclientaccount, Account newclientaccount, int sum)
         {
-            loggedclientaccount.Sum -= sum;
-            newclientaccount.Sum += sum;
+            if (loggedclientaccount.Sum - sum >= 0)
+            {
+                loggedclientaccount.Sum -= sum;
+                newclientaccount.Sum += sum;
+            }
         }
     }
 

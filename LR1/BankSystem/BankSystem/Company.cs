@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankSystem
 {
-    class Company: ICloneable
+    public class Company: ICloneable
     {
         public string Type { get; set; }
         public string LegalName { get; set; }

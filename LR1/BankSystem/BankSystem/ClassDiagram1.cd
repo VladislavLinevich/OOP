@@ -134,7 +134,7 @@
   <Class Name="BankSystem.Manager" Collapsed="true">
     <Position X="9.5" Y="5.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAABAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAABAABAAAAAAAABAAAAAAIAAIAAAABAAAAAAAAAAA=</HashCode>
       <FileName>User.cs</FileName>
     </TypeIdentifier>
   </Class>
@@ -186,31 +186,128 @@
     </TypeIdentifier>
   </Class>
   <Class Name="BankSystem.Model" Collapsed="true">
-    <Position X="15.5" Y="7.5" Width="1.5" />
+    <Position X="20" Y="7.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgEggABAiAgAAAgACAAAQIFACAAAZSIIwBAAQAXAQI=</HashCode>
+      <HashCode>AAgEggABAiAgAAAgACAAAQIFACAAAZSJIwBAAQAXAQI=</HashCode>
       <FileName>Model.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="BankSystem.Presenter" Collapsed="true">
-    <Position X="17.5" Y="7.5" Width="1.5" />
+    <Position X="15.5" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAgEAgAAAgAAAAAgAAAAAQAFACAAABQIIABAAAAdAQI=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAMAAA=</HashCode>
       <FileName>Presenter.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="model" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="BankSystem.Form1" Collapsed="true">
-    <Position X="17.5" Y="8.5" Width="1.5" />
+  <Class Name="BankSystem.PresenterAdministrator" Collapsed="true">
+    <Position X="17.25" Y="8.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>/yAAAAEAASAgABCRFICAAIBCIMw7AAIg0HAfQQAcwJI=</HashCode>
+      <HashCode>AAAAAgAAAAAAAAAgAAAAAAAAAAAAAAAAIAAAAAAIAAA=</HashCode>
+      <FileName>PresenterAdministrator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="model" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BankSystem.PresenterClient" Collapsed="true">
+    <Position X="19" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAgAAAAAAAAAAAQAEAAAAAAQAIABAAAAZAQI=</HashCode>
+      <FileName>PresenterClient.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="model" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BankSystem.PresenterManager" Collapsed="true">
+    <Position X="20.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAABAAAAAAABIAAAAAAIAAA=</HashCode>
+      <FileName>PresenterManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="model" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BankSystem.PresenterOperator" Collapsed="true">
+    <Position X="22.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAIAAA=</HashCode>
+      <FileName>PresenterOperator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="model" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BankSystem.PresenterSpecialist" Collapsed="true">
+    <Position X="24.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAIIAAAAAAIAAA=</HashCode>
+      <FileName>PresenterSpecialist.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="model" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BankSystem.Form1" Collapsed="true">
+    <Position X="15.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAASAgABCQAACAAABCIAAoAAAAEEAIAQAIgAI=</HashCode>
       <FileName>Form1.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
       <Field Name="presenter" />
     </ShowAsAssociation>
+  </Class>
+  <Class Name="BankSystem.FormAdministrator" Collapsed="true">
+    <Position X="17.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQAAAAEAACAACBAABACAAIMCIAAwAAAAkDAAQAAAAAA=</HashCode>
+      <FileName>FormAdministrator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="presenterAdministrator" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BankSystem.FormClient" Collapsed="true">
+    <Position X="19" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>/yAgAAEAACAAABEREICAgAACYMw7AAIg0DAfASAAwLI=</HashCode>
+      <FileName>FormClient.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="presenterClient" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BankSystem.FormManager" Collapsed="true">
+    <Position X="20.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQAAAAEAACAAABAAAACAAIACAAA4AAIAEEAAAAAUAAA=</HashCode>
+      <FileName>FormManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BankSystem.FormOperator" Collapsed="true">
+    <Position X="22.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAUAACAAABAAABCAABACIAAwAAAAALABAAAAAAA=</HashCode>
+      <FileName>FormOperator.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="presenterOperator" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="BankSystem.FormSpecialist" Collapsed="true">
+    <Position X="24.25" Y="9.5" Width="1.5" />
+    <Compartments>
+      <Compartment Name="Fields" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAACAAABAAAACAAAACAAgwAAIAEAAAAAAAABA=</HashCode>
+      <FileName>FormSpecialist.cs</FileName>
+    </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

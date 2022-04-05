@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BankSystem
 {
-    abstract class User
+    public abstract class User
     {
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
@@ -14,7 +14,7 @@ namespace BankSystem
         public string Password { get; set; }
     }
 
-    class Client: User
+    public class Client: User
     {
         public string Email { get; set; } 
         public string PassportNumber { get; set; }
@@ -77,7 +77,7 @@ namespace BankSystem
         }
     }
 
-    class Operator : User
+    public class Operator : User
     {
         public List<string> OperatorLogs { get; set; }
         public Operator(string password, string id, string fullName, string phoneNumber)
@@ -90,10 +90,14 @@ namespace BankSystem
         }
     }
 
-    class Manager : User
+    public class Manager : User
     {
         public List<string> ManagerLogs { get; set; }
         public List<Client> ApproveClient { get; set; }
+        public List<Credit> ApproveCredits { get; set; }
+        public List<InstallmentPlan> ApproveInstallment { get; set; }
+        public List<string> ClientIDCredits { get; set; }
+        public List<string> ClientIDInstallment { get; set; }
         public Manager(string password, string id, string fullName, string phoneNumber)
         {
             Password = password;
@@ -102,10 +106,14 @@ namespace BankSystem
             PhoneNumber = phoneNumber;
             ManagerLogs = new List<string>();
             ApproveClient = new List<Client>();
+            ApproveCredits = new List<Credit>();
+            ClientIDCredits = new List<string>();
+            ClientIDInstallment = new List<string>();
+            ApproveInstallment = new List<InstallmentPlan>();
         }
     }
 
-    class Specialist : User
+    public class Specialist : User
     {
         public Company company { get; set; }
         public Specialist(string password, string id, string fullName, string phoneNumber, Company company)
@@ -139,7 +147,7 @@ namespace BankSystem
         }
     }
 
-    class Administrator : User
+    public class Administrator : User
     {
         public List<string> AdminLogs { get; set; }
         public CaretakerClients caretakerClients { get; set; }
