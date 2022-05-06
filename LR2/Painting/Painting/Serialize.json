@@ -1,0 +1,8 @@
+{"x1":175,"y1":96,"x2":95,"y2":98,"PenColor":"Black","PenWidth":11.0,"BrushColor":"Lime","Name":"Rectangle"}
+{"x1":86,"y1":168,"x2":363,"y2":113,"PenColor":"Red","PenWidth":11.0,"BrushColor":"Lime","Name":"Ellipse"}
+{"x1":466,"y1":173,"x2":291,"y2":99,"PenColor":"Red","PenWidth":6.0,"BrushColor":"Lime","Name":"Line"}
+{"x1":137,"y1":98,"x2":5,"y2":217,"PenColor":"Red","PenWidth":6.0,"BrushColor":"Lime","Name":"Line"}
+{"lines":[{"x1":523,"y1":103,"x2":534,"y2":223,"PenColor":"Blue","PenWidth":16.0,"BrushColor":"Blue","Name":"Line"},{"x1":534,"y1":223,"x2":615,"y2":125,"PenColor":"Blue","PenWidth":16.0,"BrushColor":"Blue","Name":"Line"},{"x1":615,"y1":125,"x2":572,"y2":302,"PenColor":"Blue","PenWidth":16.0,"BrushColor":"Blue","Name":"Line"},{"x1":572,"y1":302,"x2":451,"y2":357,"PenColor":"Blue","PenWidth":16.0,"BrushColor":"Blue","Name":"Line"},{"x1":451,"y1":357,"x2":310,"y2":369,"PenColor":"Blue","PenWidth":16.0,"BrushColor":"Blue","Name":"Line"},{"x1":310,"y1":369,"x2":160,"y2":330,"PenColor":"Blue","PenWidth":16.0,"BrushColor":"Blue","Name":"Line"}],"Name":"BrokenLine"}
+{"x1":193,"y1":296,"x2":336,"y2":121,"PenColor":"Yellow","PenWidth":16.0,"BrushColor":"Blue","Name":"Rectangle"}
+{"x1":38,"y1":398,"lengthDown":100,"lengthUp":50,"PenColor":"Black","PenWidth":1.0,"BrushColor":"Red","Name":"Trapeze"}
+{"x1":438,"y1":450,"lengthDown":200,"lengthUp":100,"PenColor":"Black","PenWidth":11.0,"BrushColor":"Red","Name":"Trapeze"}
